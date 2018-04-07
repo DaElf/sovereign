@@ -4,9 +4,9 @@
 ################################################################################
 
 # common
-domain: (required)
-main_user_name: (required)
-organization: (required)
+domain: stout.daelf.org
+main_user_name: cattelan
+organization: The Personal Elf
 
 # admin email
 # fail2ban reports will be sent to this address
