@@ -8,10 +8,10 @@
     ServerName {{ webmail_domain }}
     SSLEngine On
 
-    DocumentRoot            /var/www/roundcube
+    DocumentRoot            /var/lib/roundcube
     Options                 -Indexes
 
-    <Directory /var/www/roundcube>
+    <Directory /var/lib/roundcube>
         AllowOverride All
         Require all granted
         DirectoryIndex index.php
