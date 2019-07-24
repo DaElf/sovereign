@@ -2,10 +2,11 @@
 # Installs the ownCloud personal cloud software.
 
 - name: Install ownCloud dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-    - postgresql
-    - python-psycopg2
+  apt:
+    state: present
+    name:
+      - postgresql
+      - python3-psycopg2
   tags:
     - dependencies
 
@@ -34,7 +35,10 @@
     - dependencies
 
 - name: Install ownCloud
-  apt: pkg=owncloud-files update_cache=yes
+  apt:
+    state: present
+    name:
+      - owncloud-files
   tags:
     - dependencies
 

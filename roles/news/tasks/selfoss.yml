@@ -19,11 +19,12 @@
     - public
 
 - name: Install selfoss dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-    - php
-    - php-pgsql
-    - php-gd
+  apt:
+    state: present
+    name:
+      - php
+      - php-pgsql
+      - php-gd
   tags:
     - dependencies
 

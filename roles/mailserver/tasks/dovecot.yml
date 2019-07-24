@@ -1,18 +1,23 @@
 - name: Install Dovecot and related packages
-  apt: pkg={{ item }} update_cache=yes state=present
-  with_items:
-    - dovecot-core
-    - dovecot-imapd
-    - dovecot-lmtpd
-    - dovecot-managesieved
-    - dovecot-pgsql
-    - dovecot-pop3d
-    - dovecot-antispam
+  apt:
+    update_cache: yes
+    state: present
+    name:
+      - dovecot-core
+      - dovecot-imapd
+      - dovecot-lmtpd
+      - dovecot-managesieved
+      - dovecot-pgsql
+      - dovecot-pop3d
+      - dovecot-antispam
   tags:
     - dependencies
 
 - name: Install Postgres for Dovecot
-  apt: pkg=postgresql state=present
+  apt:
+    state: present
+    name:
+      - postgresql
   tags:
     - dependencies
 

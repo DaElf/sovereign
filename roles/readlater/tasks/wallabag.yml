@@ -13,13 +13,14 @@
   when: wallabag_config.stat.exists
 
 - name: Install wallabag dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-    - php
-    - php-curl
-    - php-mcrypt
-    - php-pgsql
-    - php-tidy
+  apt:
+    state: present
+    name:
+      - php
+      - php-curl
+      - php-mcrypt
+      - php-pgsql
+      - php-tidy
   tags:
     - dependencies
 

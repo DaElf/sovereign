@@ -1,10 +1,11 @@
 
 - name: Install cgit dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-    - groff
-    - libssl-dev
-    - python3-pip
+  apt:
+    state: present
+    name:
+      - groff
+      - libssl-dev
+      - python3-pip
   tags:
     - dependencies
 
