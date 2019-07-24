@@ -1,10 +1,11 @@
 - name: Install security-related packages
-  apt: pkg={{ item }} state=installed
-  with_items:
-    - fail2ban
-    - whois
-    - lynis
-    - rkhunter
+  apt:
+   state: present
+   name:
+     - fail2ban
+     - whois
+     - lynis
+     - rkhunter
   tags:
     - dependencies
 

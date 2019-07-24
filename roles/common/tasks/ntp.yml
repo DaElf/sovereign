@@ -2,7 +2,10 @@
 # Defines tasks applicable for NTP (Network Time Protocol)
 
 - name: Install ntp
-  apt: pkg=ntp state=installed
+  apt:
+    state: latest
+    name:
+      - ntp
   tags:
     - dependencies
 

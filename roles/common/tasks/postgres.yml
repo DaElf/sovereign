@@ -2,10 +2,12 @@
 # Defines tasks applicable for postgreSQL
 
 - name: Install Postgres
-  apt: pkg={{ item }} state=installed
-  with_items:
-    - postgresql
-    - python-psycopg2
+  apt:
+    state: present
+    name:
+      - postgresql
+      - python3-psycopg2
+      - python-psycopg2
   tags:
     - dependencies
 

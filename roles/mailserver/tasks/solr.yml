@@ -1,8 +1,9 @@
 - name: Install Solr and related packages
-  apt: pkg={{ item }} state=installed
-  with_items:
-    - dovecot-solr
-    - solr-tomcat
+  apt:
+    state: present
+    name:
+      - dovecot-solr
+      - solr-tomcat
   tags:
     - dependencies
 

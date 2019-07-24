@@ -1,13 +1,14 @@
 - name: Install Postfix and related packages
-  apt: pkg={{ item }} state=installed
-  with_items:
-    - libsasl2-modules
-    - postfix
-    - postfix-pcre
-    - postfix-pgsql
-    - postgrey
-    - python-psycopg2
-    - sasl2-bin
+  apt:
+    state: present
+    name:
+      - libsasl2-modules
+      - postfix
+      - postfix-pcre
+      - postfix-pgsql
+      - postgrey
+      - python3-psycopg2
+      - sasl2-bin
   tags:
     - dependencies
 
