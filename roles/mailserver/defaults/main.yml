@@ -11,7 +11,8 @@ mail_db_database: 'mailserver'
 
 mail_server_hostname: "mail.{{ domain }}"
 mail_server_autoconfig_hostname: "autoconfig.{{ domain }}"
-mail_header_privacy: 1
+# default is 1
+mail_header_privacy: 0
 
 # virtual domains
 mail_virtual_domains: []

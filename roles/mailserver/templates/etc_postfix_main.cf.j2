@@ -1,5 +1,12 @@
 # See /usr/share/postfix/main.cf.dist for a commented, more complete version
-# Modified as per http://sealedabstract.com/code/nsa-proof-your-e-mail-in-2-hours/
+
+
+# Debian specific:  Specifying a file name will cause the first
+# line of that file to be used as the name.  The Debian default
+# is /etc/mailname.
+#myorigin = /etc/mailname
+myorigin = $mydomain
+
 
 smtpd_banner = $myhostname ESMTP $mail_name
 biff = no
@@ -14,6 +21,11 @@ append_dot_mydomain = no
 #delay_warning_time = 4h
 
 readme_directory = no
+
+# See http://www.postfix.org/COMPATIBILITY_README.html -- default to 2 on
+# fresh installs.
+compatibility_level = 2
+
 
 # antispam
 smtpd_helo_required = yes
@@ -36,28 +48,19 @@ unverified_recipient_reject_code = 554
 unverified_sender_reject_code = 554
 
 # TLS parameters
-smtpd_tls_mandatory_protocols=!SSLv2,!SSLv3
-smtp_tls_mandatory_protocols=!SSLv2,!SSLv3
-smtp_tls_protocols = !SSLv2,!SSLv3
-smtpd_tls_protocols = !SSLv2,!SSLv3
 smtpd_tls_cert_file=/etc/letsencrypt/live/{{ domain }}/fullchain.pem
 smtpd_tls_key_file=/etc/letsencrypt/live/{{ domain }}/privkey.pem
 smtpd_use_tls=yes
-smtpd_tls_auth_only = yes
-smtp_tls_security_level = may
-smtp_tls_loglevel = 2
-smtpd_tls_received_header = yes
-smtp_tls_note_starttls_offer = yes
-smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
-# http://www.postfix.org/FORWARD_SECRECY_README.html
-smtp_tls_ciphers = medium
-smtpd_tls_dh1024_param_file = /etc/ssl/private/dhparam2048.pem
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 
 smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth
 smtpd_sasl_auth_enable = yes
 broken_sasl_auth_clients = yes
 smtpd_sasl_security_options = noanonymous
+smtpd_client_restrictions = permit_sasl_authenticated
+
 
 # set to empty value for backwards compatibility
 # as per http://www.postfix.org/postconf.5.html#smtpd_relay_restrictions
@@ -78,13 +81,11 @@ smtpd_recipient_restrictions =
 # information on enabling SSL in the smtp client.
 
 myhostname = {{ mail_server_hostname }}
-myorigin = $mydomain
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 mydestination = localhost
 relayhost =
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 {{ ' '.join(friendly_networks) }}
-#mailbox_command = procmail -a "$EXTENSION"
 mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
@@ -106,8 +107,6 @@ milter_protocol = 6
 milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen} {auth_type}
 milter_default_action = accept
 
-smtpd_client_restrictions = permit_sasl_authenticated
-
 # Postscreen
 postscreen_access_list = permit_mynetworks
 postscreen_dnsbl_sites =
@@ -124,3 +123,5 @@ postscreen_greet_action = enforce
 # Remove local client IP from headers
 smtp_header_checks = pcre:/etc/postfix/maps/smtp_header_checks.pcre
 {% endif %}
+
+inet_protocols = all

@@ -78,10 +78,10 @@
   template: src=etc_dovecot_dovecot-sql.conf.ext.j2 dest=/etc/dovecot/dovecot-sql.conf.ext
   notify: restart dovecot
 
-- name: Ensure correct permissions on Dovecot config directory
-  file: state=directory path=/etc/dovecot
-          group=dovecot owner=vmail mode=0770 recurse=yes
-  notify: restart dovecot
+#- name: Ensure correct permissions on Dovecot config directory
+#  file: state=directory path=/etc/dovecot
+#          group=dovecot owner=vmail mode=0770 recurse=yes
+#  notify: restart dovecot
 
 - name: Set firewall rules for dovecot
   ufw: rule=allow port={{ item }} proto=tcp
