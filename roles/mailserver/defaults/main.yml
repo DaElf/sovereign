@@ -5,9 +5,9 @@ secret: '{{ secret_root + "/" + secret_name }}'
 db_admin_username: 'postgres'
 db_admin_password: "{{ lookup('password', secret + '/' + 'db_admin_password', length=32) }}"
 
-mail_db_username: 'mailuser'
-mail_db_password: "{{ lookup('password', secret + '/' + 'mail_db_password', length=32) }}"
-mail_db_database: 'mailserver'
+mail_db_username: 'postfixadmin'
+mail_db_password: 'postfixadmin'
+mail_db_database: 'postfixadmin'
 
 mail_server_hostname: "mail.{{ domain }}"
 mail_server_autoconfig_hostname: "autoconfig.{{ domain }}"

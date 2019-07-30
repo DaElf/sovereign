@@ -1,0 +1,36 @@
+---
+
+- name: Add repo ppa:milter-manager
+  apt_repository:
+    repo: ppa:milter-manager/ppa
+
+- name: Install spamassassin
+  package:
+    state: present
+    update_cache: yes
+    name:
+      - spamassassin
+      - sa-compile
+      - spamass-milter
+      - razor
+      - pyzor
+      - libencode-detect-perl
+      - libgeo-ip-perl
+      - libnet-patricia-perl
+  tags:
+    - dependencies
+
+- name: Install clamav
+  package:
+    state: latest
+    name:
+      - clamav
+      - clamav-base
+      - clamav-daemon
+      - clamav-freshclam
+      - clamav-milter
+      - clamdscan
+      - libclamav7
+      - libtfm1
+  tags:
+    - dependencies
