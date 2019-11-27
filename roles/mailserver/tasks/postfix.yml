@@ -12,7 +12,7 @@
   tags:
     - dependencies
 
-- name: Create database user for mail server
+#- name: Create database user for mail server
   postgresql_user: >-
     login_host=localhost
     login_user={{ db_admin_username }}
@@ -21,9 +21,9 @@
     password="{{ mail_db_password }}"
     encrypted=yes
     state=present
-  notify: import sql postfix
+#  notify: import sql postfix
 
-- name: Create database for mail server
+#- name: Create database for mail server
   postgresql_db: >-
     login_host=localhost
     login_user={{ db_admin_username }}
@@ -31,11 +31,11 @@
     name={{ mail_db_database }}
     state=present
     owner={{ mail_db_username }}
-  notify: import sql postfix
+#  notify: import sql postfix
 
-- name: Copy import.sql
-  template: src=mailserver.sql.j2 dest=/etc/postfix/import.sql owner=root group=root mode=0600
-  notify: import sql postfix
+#- name: Copy import.sql
+#  template: src=mailserver.sql.j2 dest=/etc/postfix/import.sql owner=root group=root mode=0600
+#  notify: import sql postfix
 
 - name: Create postfix maps directory
   file: path=/etc/postfix/maps state=directory owner=root group=root
@@ -63,6 +63,10 @@
     - pgsql-virtual-alias-maps.cf
     - pgsql-virtual-mailbox-domains.cf
     - pgsql-virtual-mailbox-maps.cf
+    - pgsql-virtual-mailbox-limits.cf
+    - pgsql-virtual-domains-maps.cf
+    - pgsql-relay-domains.cf
+
   notify: restart postfix
 
 - name: Set firewall rules for postfix

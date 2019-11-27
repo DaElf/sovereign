@@ -14,3 +14,5 @@
   tags: zpush
 - import_tasks: autoconfig.yml
   tags: autoconfig
+- include: mailman.yml
+  tags: mailman
