@@ -1,0 +1,7 @@
+- name: Install mailman3
+  package:
+    state: present
+    name:
+      - mailman3-full
+  tags:
+    - dependencies
