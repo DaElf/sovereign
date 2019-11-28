@@ -1,0 +1,17 @@
+---
+- name: Install mailman3 hyperkitty and mailman3-web
+  package:
+    state: present
+    name:
+      - mailman3-full
+
+- name: Enable apache2 site
+  template: src=mailman.conf.j2 dest=/etc/apache2/sites-available/mailman.conf
+  
+- name: Enable Apache rewrite module
+  command: a2enmod proxy_uwsgi creates=/etc/apache2/mods-enabled/proxy_uwsgi.load
+  notify: restart apache
+
+- name: Enable mailman Apache site
+  command: a2ensite mailman.conf creates=/etc/apache2/sites-enabled/mailman.conf
+  notify: restart apache
