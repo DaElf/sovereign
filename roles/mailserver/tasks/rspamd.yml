@@ -26,7 +26,7 @@
 #    - dependencies
 
 - name: Install Rspamd and Redis
-  apt:
+  package:
     state: present
     update_cache: yes
     name:
@@ -41,6 +41,8 @@
 
 - name: Configure Rspamd to use Redis
   copy: src=etc_rspamd_local.d_redis.conf dest=/etc/rspamd/local.d/redis.conf owner=root group=root mode="0644"
+
+- name: Configure Rspamd to use Redis
   copy: src=etc_rspamd_worker-fuzzy.inc dest=/etc/rspamd/worker-fuzzy.inc owner=root group=root mode="0644"
   notify: restart rspamd
 
