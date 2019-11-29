@@ -9,6 +9,8 @@
       - postgrey
       - python3-psycopg2
       - sasl2-bin
+      - postfixadmin
+      - php7.3-pgsql
   tags:
     - dependencies
 
@@ -51,6 +53,34 @@
     - pgsql-relay-domains.cf
 
   notify: restart postfix
+
+# Postfix admin stuff
+# This should maybe conditonal in the case of ngnix
+- name: enable postfixadmin config in apache
+  command: a2enconf postfixadmin creates=/etc/apache2/conf-enabled/postfixadmin.conf
+  notify: restart apache
+
+- name: create postfixadmin template_c dir
+  file: state=directory path=/usr/share/postfixadmin/templates_c group=www-data owner=www-data
+
+- name: Create postgres "postfixadmin" database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: postfixadmin
+
+- name: Set password for PostgreSQL postfixadmin user
+  become: true
+  become_user: postgres
+  postgresql_user:
+    db: postfixadmin
+    name: postfixadmin
+    password: postfixadmin
+
+# End postfix admin
+
+#- name: Setup postfixadmin config.local
+#  template: src=config.local.php.j2 dest=/usr/share/postfixadmin/config.local.php  group=www-data owner=www-data
 
 - name: Set firewall rules for postfix
   ufw: rule=allow port={{ item }} proto=tcp
