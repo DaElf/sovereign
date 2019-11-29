@@ -6,13 +6,48 @@
      RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 </VirtualHost>
 
-<VirtualHost *:443>
-    ServerName mailman.daelf.org
-    SSLEngine On
+<VirtualHost *:80>
+    ServerName localhost
 
     DocumentRoot            /var/lib/mailman3/web
     Options                 Indexes
 
+    Alias /mailman3/favicon.ico /var/lib/mailman3/web/static/postorius/img/favicon.ico
+    Alias /mailman3/static      /var/lib/mailman3/web/static
+
+    <Directory "/var/lib/mailman3/web">
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    <Directory "/var/lib/mailman3/web/static">
+        Require all granted
+    </Directory>
+
+     <IfModule mod_proxy.c>
+         # Show Proxy LoadBalancer status in mod_status
+         ProxyStatus On
+     </IfModule>
+
+    <IfModule mod_proxy_uwsgi.c>
+        ProxyPass /mailman3/favicon.ico !
+        ProxyPass /mailman3/static !
+        ProxyPass /mailman3 unix:/run/mailman3-web/uwsgi.sock|uwsgi://localhost/
+    </IfModule>
+
+    LogLevel                warn
+    ErrorLog                /var/log/apache2/mailman.info-error_log
+    CustomLog               /var/log/apache2/mailman.info-access_log common
+
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName mailman.{{ domain }}
+    SSLEngine On
+
+    DocumentRoot            /var/lib/mailman3/web
+    Options                 Indexes
 
     Alias /mailman3/favicon.ico /var/lib/mailman3/web/static/postorius/img/favicon.ico
     Alias /mailman3/static      /var/lib/mailman3/web/static
@@ -38,7 +73,6 @@
 	ProxyPass /mailman3 unix:/run/mailman3-web/uwsgi.sock|uwsgi://localhost/
 	ProxyPass / unix:/run/mailman3-web/uwsgi.sock|uwsgi://localhost/
     </IfModule>
-
 
     LogLevel		    warn
     ErrorLog                /var/log/apache2/mailman.info-error_log

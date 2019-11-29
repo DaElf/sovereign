@@ -7,7 +7,30 @@
 
 - name: Enable apache2 site
   template: src=mailman.conf.j2 dest=/etc/apache2/sites-available/mailman.conf
-  
+
+- name: Configure mailman hyperkitty
+  template: src=mailman-hyperkitty.cfg.j2 dest=/etc/mailman3/mailman-hyperkitty.cfg
+
+- name: Insert/Update mailman.cfg
+  blockinfile:
+    path: /etc/mailman3/mailman.cfg
+    marker: "# ANSIBLE MANAGED BLOCK"
+    insertafter: EOF
+    block: |
+      [archiver.hyperkitty]
+      class: mailman_hyperkitty.Archiver
+      enable: yes
+      configuration: /etc/mailman3/mailman-hyperkitty.cfg
+
+- name: Change email admin in mailman.cfg
+  become: yes
+  become_user: root
+  replace:
+    path: /etc/mailman3/mailman.cfg
+    regexp: '(^site_owner:\s)(.*)$'
+    replace: '\1root@{{ domain }}'
+    backup: yes
+
 - name: Enable Apache rewrite module
   command: a2enmod proxy_uwsgi creates=/etc/apache2/mods-enabled/proxy_uwsgi.load
   notify: restart apache
