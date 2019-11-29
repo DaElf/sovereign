@@ -3,11 +3,18 @@
     name: ssl-cert
     state: present
 
-- name: Download LetsEncrypt release
-  git: repo=https://github.com/letsencrypt/letsencrypt
-       dest=/root/letsencrypt
-       version=master
-       force=yes
+#- name: Download LetsEncrypt release
+#  git: repo=https://github.com/letsencrypt/letsencrypt
+#       dest=/root/letsencrypt
+#       version=master
+#       force=yes
+
+- name: Install the certbot packagees
+  package:
+    state: present
+    name:
+      - certbot
+      - python3-certbot-apache
 
 - name: Create directory for LetsEncrypt configuration and certificates
   file: state=directory path=/etc/letsencrypt group=root owner=root
@@ -19,10 +26,10 @@
     owner=root
     group=root
 
-- name: Install LetsEncrypt package dependencies
-  command: /root/letsencrypt/letsencrypt-auto --help
-  register: le_deps_result
-  changed_when: "'Bootstrapping dependencies' in le_deps_result.stdout"
+#- name: Install LetsEncrypt package dependencies
+#  command: /root/letsencrypt/letsencrypt-auto --help
+#  Register: le_deps_result
+#  changed_when: "'Bootstrapping dependencies' in le_deps_result.stdout"
 
 - name: Create directory for pre-renewal scripts
   file: state=directory path=/etc/letsencrypt/prerenew group=root owner=root
@@ -57,8 +64,12 @@
 - name: Create live directory for LetsEncrypt cron job
   file: state=directory path=/etc/letsencrypt/live group=root owner=root
 
+- name: stop apache service
+  service: name=apache2 state=stopped
+
 - name: Get an SSL certificate for {{ domain }} from Let's Encrypt
-  script: letsencrypt-gencert {{ domain }} creates=/etc/letsencrypt/live/{{ domain }}/privkey.pem
+#  shell: certbot certonly -d {{ domain }},mail.{{ domain }},imap.{{ domain }},smtp.{{ domain }},mailman.{{ domain }} creates=/etc/letsencrypt/live/{{ domain }}/privkey.pem
+  shell: certbot certonly -m cattelan@thebarn.com --standalone --agree-tos --noninteractive -d {{ domain }},mail.{{ domain }},imap.{{ domain }},smtp.{{ domain }},mailman.{{ domain }} creates=/etc/letsencrypt/live/{{ domain }}/privkey.pem
   when: ansible_ssh_user != "vagrant"
 
 - name: Modify permissions to allow ssl-cert group access
