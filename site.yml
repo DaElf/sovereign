@@ -8,6 +8,7 @@
 
   roles:
     - common
+    - mailman3
     - mailserver
     - webmail
 #    - blog
