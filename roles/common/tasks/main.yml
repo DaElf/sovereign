@@ -10,7 +10,7 @@
     - dependencies
 
 - name: Install necessities and nice-to-haves
-  apt:
+  package:
     state: latest
     name:
       - apache2

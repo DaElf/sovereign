@@ -4,8 +4,8 @@
   tags: dovecot
 - include: rspamd.yml
   tags: rspamd
-- include: spamassassin.yml
-  tags: spamassassin
+#- include: spamassassin.yml
+#  tags: spamassassin
 - include: solr.yml
   tags: solr
 - include: checkrbl.yml
