@@ -2,7 +2,7 @@
 # Defines tasks applicable for Google Authenticator.
 
 - name: Ensure required packages are installed
-  apt:
+  package:
     state: present
     name:
       - libpam-google-authenticator

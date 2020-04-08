@@ -1,5 +1,5 @@
 - name: Install Solr and related packages
-  apt:
+  package:
     state: present
     name:
       - dovecot-solr

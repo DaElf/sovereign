@@ -8,7 +8,7 @@
   user: name=www-data groups=git append=yes
 
 - name: Install gitolite3 package
-  apt:
+  package:
     state: present
     name:
       - gitolite3

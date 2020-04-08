@@ -2,7 +2,7 @@
 # Installs the ownCloud personal cloud software.
 
 - name: Install ownCloud dependencies
-  apt:
+  package:
     state: present
     name:
       - postgresql

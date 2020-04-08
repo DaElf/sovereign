@@ -1,6 +1,6 @@
 
 - name: Install cgit dependencies
-  apt:
+  package:
     state: present
     name:
       - groff

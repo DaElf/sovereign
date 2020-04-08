@@ -22,7 +22,7 @@
 
 - name: Install clamav
   package:
-    state: latest
+    state: present
     name:
       - clamav
       - clamav-base

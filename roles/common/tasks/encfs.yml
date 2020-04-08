@@ -1,10 +1,10 @@
 - name: Install encfs & fuse
-  apt:
-  apt: pkg={{ item }} state=present
-  with_items:
-    - encfs
-    - fuse
-    - libfuse-dev
+  package:
+    state: present
+    name:
+      - encfs
+      - fuse
+      - libfuse-dev
   tags:
     - dependencies
 
@@ -18,11 +18,14 @@
   register: encfs_check
 
 - name: If /encrypted is empty, create the encfs there
-  shell: printf "p\n{{ encfs_password }}" | encfs /encrypted /decrypted --public --stdinpass && touch /decrypted/test
+  shell: >-
+    set -o pipefail &&
+    printf "p\n{{ encfs_password }}" | encfs /encrypted /decrypted --public --stdinpass && touch /decrypted/test
   when: encfs_check.rc > 0
 
 - name: If /encrypted isn't empty, mount it (but only if /decrypted/test doesn't exist)
   shell: >-
+    set -o pipefail &&
     printf '{{ encfs_password }}' | encfs /encrypted /decrypted --public --stdinpass
     creates=/decrypted/test
   when: encfs_check.rc == 0

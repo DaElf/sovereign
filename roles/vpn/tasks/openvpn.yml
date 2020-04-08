@@ -3,8 +3,8 @@
 # ref: https://library.linode.com/networking/openvpn/debian-6-squeeze
 
 - name: Install OpenVPN and dependencies
-  apt:
-    state: present
+  package:
+    state: latest
     name:
       - dnsmasq
       - openvpn

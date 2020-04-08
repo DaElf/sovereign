@@ -13,8 +13,8 @@
   when: wallabag_config.stat.exists
 
 - name: Install wallabag dependencies
-  apt:
-    state: present
+  package:
+    state: latest
     name:
       - php
       - php-curl

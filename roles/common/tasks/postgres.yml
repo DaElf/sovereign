@@ -2,7 +2,7 @@
 # Defines tasks applicable for postgreSQL
 
 - name: Install Postgres
-  apt:
+  package:
     state: present
     name:
       - postgresql

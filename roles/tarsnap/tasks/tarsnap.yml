@@ -8,8 +8,8 @@
 
 - name: Install dependencies for Tarsnap
   when: tarsnap_installed is failed
-  apt:
-    state: present
+  package:
+    state: latest
     name:
       - e2fslibs-dev
       - libssl-dev

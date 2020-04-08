@@ -1,6 +1,6 @@
 - name: Install collectd
-  apt:
-    state: latest
+  package:
+    state: present
     name: collectd
   tags:
       - dependencies

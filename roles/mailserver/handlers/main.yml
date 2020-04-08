@@ -10,16 +10,16 @@
 - name: restart solr
   service: name=tomcat9 state=restarted
 
-- name: import sql postfix
-  command: >-
-    psql -h localhost -d {{ mail_db_database }} -U {{ mail_db_username }}
-    -f /etc/postfix/import.sql --set ON_ERROR_STOP=1
-  environment:
-    PGPASSWORD: "{{ mail_db_password }}"
-  notify: restart postfix
+#- name: import sql postfix
+#  command: >-
+#    psql -h localhost -d {{ mail_db_database }} -U {{ mail_db_username }}
+#    -f /etc/postfix/import.sql --set ON_ERROR_STOP=1
+#  environment:
+#    PGPASSWORD: "{{ mail_db_password }}"
+#  notify: restart postfix
 
 - name: restart rspamd
   service: name=rspamd state=restarted
 
-- name: restart spamassassin
-  service: name=spamassassin state=restarted
+#- name: restart spamassassin
+#  service: name=spamassassin state=restarted

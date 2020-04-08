@@ -9,9 +9,9 @@
     - dependencies
 
 - name: Install Prosody and dependencies from official repository
-  apt:
+  package:
     update_cache: yes
-    state: present
+    state: latest
     name:
       - prosody
       - lua-sec

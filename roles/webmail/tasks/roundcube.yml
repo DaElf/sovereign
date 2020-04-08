@@ -3,7 +3,7 @@
   register: roundcube_config
 
 - name: Install roundcube dependencies
-  apt:
+  package:
     state: present
     name:
       - php
@@ -32,13 +32,6 @@
       - roundcube-sqlite3
   tags:
     - dependencies
-
-#- name: Clone roundcube
-#  git: repo=https://github.com/roundcube/roundcubemail.git
-#       dest=/var/www/roundcube
-#       version={{ webmail_version }}
-#       update=no
-#       accept_hostkey=yes
 
 - name: Get Composer installer
   get_url: url=https://getcomposer.org/installer

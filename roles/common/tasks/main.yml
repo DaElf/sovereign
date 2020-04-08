@@ -11,7 +11,7 @@
 
 - name: Install necessities and nice-to-haves
   package:
-    state: latest
+    state: present
     name:
       - apache2
       - apache2-data

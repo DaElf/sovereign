@@ -1,5 +1,5 @@
 - name: Install required packages for z-push
-  apt:
+  package:
     state: present
     name:
       - php-soap
