@@ -32,7 +32,7 @@
   with_items: '{{ mail_virtual_domains }}'
 
 - name: Ensure mail directories are in place
-  file: state=directory path=/decrypted/{{ item.domain }}/{{ item.account }} owner=vmail group=dovecot
+  file: state=directory path=/decrypted/{{ item.domain }}/{{ item.account }} owner=vmail group=vmail
   with_items: '{{ mail_virtual_users }}'
 
 - name: Copy dovecot.conf into place
@@ -58,6 +58,22 @@
     - 90-plugin.conf
     - 90-sieve.conf
     - auth-sql.conf.ext
+  notify: restart dovecot
+
+- name: Fix postfixadmin alias
+  lineinfile:
+    path: /etc/dovecot/conf.d/20-lmtp.conf
+    regexp: '^  #mail_plugins'
+    line: '  mail_plugins = $mail_plugins sieve'
+
+- name: Fix auth-system
+  lineinfile:
+    path: /etc/dovecot/conf.d/auth-system.conf.ext
+    regexp: '^  #args = dovecot'
+    line: '  args = dovecot'
+
+- name: Template imapc.conf
+  template: src=etc_dovecot_conf.d_10-imapc.conf.j2 dest=/etc/dovecot/conf.d/10-imapc.conf
   notify: restart dovecot
 
 - name: Template 10-ssl.conf

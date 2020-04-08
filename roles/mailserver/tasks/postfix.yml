@@ -56,12 +56,29 @@
 
 # Postfix admin stuff
 # This should maybe conditonal in the case of ngnix
+
+- name: Fix postfixadmin alias
+  lineinfile:
+    path: /etc/apache2/conf-available/postfixadmin.conf
+    regexp: '^Alias'
+    line: 'Alias /postfixadmin /usr/share/postfixadmin/public'
+
+- name: Fix 'support_tools' permissions
+  file: path=/usr/share/postfixadmin/public owner=www-data group=www-data state=directory recurse=yes
+
+
 - name: enable postfixadmin config in apache
   command: a2enconf postfixadmin creates=/etc/apache2/conf-enabled/postfixadmin.conf
   notify: restart apache
 
 - name: create postfixadmin template_c dir
   file: state=directory path=/usr/share/postfixadmin/templates_c group=www-data owner=www-data
+
+#- name: Copy dbconfig-common/postfixadmin.conf
+#  copy: src=etc_dbconfig-common_postfixadmin.conf dest=/etc/dbconfig-common/postfixadmin.conf owner=root group=root
+
+- name: Copy /etc/postfixadmin/dbconfig.inc.php
+  copy: src=etc_postfixadmin_dbconfig.inc.php dest=/etc/postfixadmin/dbconfig.inc.php owner=root group=root
 
 - name: Create postgres "postfixadmin" database
   become: true
@@ -88,4 +105,5 @@
     - smtp
     - ssmtp
     - submission
+    - sieve
   tags: ufw

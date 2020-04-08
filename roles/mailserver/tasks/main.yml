@@ -1,18 +1,32 @@
-- include: postfix.yml
+- name: postfix
+  import_tasks: postfix.yml
   tags: postfix
-- include: dovecot.yml
+
+- name: dovecot
+  import_tasks: dovecot.yml
   tags: dovecot
-- include: rspamd.yml
+
+- name: rspamd
+  import_tasks: rspamd.yml
   tags: rspamd
+
 #- include: spamassassin.yml
 #  tags: spamassassin
-- include: solr.yml
+
+- name: solr
+  import_tasks: solr.yml
   tags: solr
-- include: checkrbl.yml
+
+- name: checkrbl
+  import_tasks: checkrbl.yml
   tags: checkrbl
+
 #- include: z-push.yml
 #  tags: zpush
-- include: autoconfig.yml
+- name: autoconfig
+  import_tasks: autoconfig.yml
   tags: autoconfig
-- include: mailman.yml
+
+- name: mailmain
+  import_tasks: mailman.yml
   tags: mailman
