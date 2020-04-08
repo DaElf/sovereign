@@ -72,22 +72,42 @@
     name: en_US.UTF-8
     state: present
 
-- import_tasks: encfs.yml
-  tags: encfs
-- import_tasks: users.yml
-  tags: users
-- import_tasks: apache.yml
-  tags: apache
-- import_tasks: ssl.yml
-  tags: ssl
-- import_tasks: letsencrypt.yml
-  tags: letsencrypt
-- import_tasks: ufw.yml
-  tags: ufw
-- import_tasks: security.yml
-  tags: security
-- import_tasks: ntp.yml
-  tags: ntp
-- import_tasks: google_auth.yml
-  tags: google_auth
-- import_tasks: postgres.yml
+- name: encfs
+  import_tasks: encfs.yml
+  tags: [ encfs ]
+  when: false
+
+- name: Users
+  import_tasks: users.yml
+  tags: [ users ]
+
+- name: Apache
+  import_tasks: apache.yml
+  tags: [ apache ]
+
+- name: ssl
+  import_tasks: ssl.yml
+  tags: [ ssl ]
+
+- name: Letsencrypt
+  import_tasks: letsencrypt.yml
+  tags: [ letsencrypt ]
+
+- name: ufw
+  import_tasks: ufw.yml
+  tags: [ ufw ]
+
+- name: security
+  import_tasks: security.yml
+  tags: [ security ]
+
+- name: ntp
+  import_tasks: ntp.yml
+  tags: [ ntp ]
+
+- name: google_auth
+  import_tasks: google_auth.yml
+  tags: [ google_auth ]
+
+- name: postgres
+  import_tasks: postgres.yml
