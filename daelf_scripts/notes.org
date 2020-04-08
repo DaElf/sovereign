@@ -1,0 +1,34 @@
+* TODO Fix insert block on mailman3 role
+
+* TODO Fix systemd config for dovecot to allow for read/write access to sieve director
+   vi /etc/systemd/system/multi-user.target.wants/dovecot.service
+   add line
+   ReadWritePaths=/usr/lib/dovecot/sieve-filter
+
+   Fix perms to 644
+
+* TODO Enable the roundcube password plugin
+  Adjust config /etc/roundcube/plugins/password/
+
+
+  
+
+
+   
+   
+
+
+** Mailman note
+ chown -R www-data.www-data /var/lib/mailman3/web/fulltext_index/
+
+ Fix mailman-web.py
+
+
+mailman create consult@thebarn.com
+mailman import21 consult@thebarn.com config.pck
+
+mailman create mba@thebarn.com
+mailman import21 mba@thebarn.com mba/config.pck
+
+python3 /usr/share/mailman3-web/manage.py hyperkitty_import -l mba@thebarn.com mba.mbox/mba.mbox
+ 

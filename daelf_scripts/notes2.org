@@ -1,0 +1,57 @@
+* TODO Fix insert block on mailman3 role
+
+* TODO Fix systemd config for dovecot to allow for read/write access to sieve director
+   vi /etc/systemd/system/multi-user.target.wants/dovecot.service
+   add line
+   ReadWritePaths=/usr/lib/dovecot/sieve-filter
+
+   Fix perms to 644
+
+* TODO Enable the roundcube password plugin
+  Adjust config /etc/roundcube/plugins/password/
+
+
+* TODO fail2ban whitelist home ip
+
+** Mailman note
+
+mailman-web.py add my IP to MAILMAN_ARCHIVER_FROM
+make sure api_key matches
+
+mailman-hyperkitty.cfg:api_key: S+WFmKI85CmWaDVM7kJwoMtIzKijz4Py
+MAILMAN_REST_API_PASS = 'Ei3PPzHqzE3m0glVyrJbnmCJjUkyzdOBcxQuY4o34i6laGy8'
+MAILMAN_ARCHIVER_KEY = 'S+WFmKI85CmWaDVM7kJwoMtIzKijz4Py'
+
+restart uwsgi (does not restart easily)
+
+
+ chown -R www-data.www-data /var/lib/mailman3/web/fulltext_index/
+
+ Fix mailman-web.py
+
+python3 /usr/share/mailman3-web/manage.py createsuperuser
+
+mailman create consult@thebarn.com
+mailman import21 consult@thebarn.com config.pck
+
+mailman create mba@thebarn.com
+mailman import21 mba@thebarn.com mba/config.pck
+python3 /usr/share/mailman3-web/manage.py hyperkitty_import -l mba@thebarn.com mba.mbox/mba.mbox
+
+mailman create jig@thebarn.com
+mailman import21 jig@thebarn.com m2_lists/jig/config.pck
+python3 /usr/share/mailman3-web/manage.py hyperkitty_import -l jig@thebarn.com m2_archives/private/jig.mbox/jig.mbox
+
+mailman create jab@thebarn.com
+mailman import21 jab@thebarn.com m2_lists/jab/config.pck
+python3 /usr/share/mailman3-web/manage.py hyperkitty_import -l jig@thebarn.com m2_archives/private/jab
+
+mailman create wine@thebarn.com
+mailman import21 wine@thebarn.com m2_lists/wine/config.pck
+python3 /usr/share/mailman3-web/manage.py hyperkitty_import -l win@thebarn.com m2_archives/private/wine.mbox/wine.mbox
+
+ 
+https://serverfault.com/questions/733304/getting-mailman3-to-play-nicely-with-postfix-and-dovecot
+
+chown -R list.list /var/lib/mailman3/lists/
+chown -R  list.list  /var/lib/mailman3/data/
