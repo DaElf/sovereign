@@ -4,9 +4,12 @@
 ################################################################################
 
 # common
-domain: daelf.org
+domain: digitalelves.com
 main_user_name: cattelan
 organization: The Personal Elf
+friendly_networks:
+  - 50.249.112.77
+
 
 # admin email
 # fail2ban reports will be sent to this address

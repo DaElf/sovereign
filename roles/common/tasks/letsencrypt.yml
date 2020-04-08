@@ -69,7 +69,8 @@
 
 - name: Get an SSL certificate for {{ domain }} from Let's Encrypt
 #  shell: certbot certonly -d {{ domain }},mail.{{ domain }},imap.{{ domain }},smtp.{{ domain }},mailman.{{ domain }} creates=/etc/letsencrypt/live/{{ domain }}/privkey.pem
-  shell: certbot certonly -m cattelan@thebarn.com --standalone --agree-tos --noninteractive -d {{ domain }},mail.{{ domain }},imap.{{ domain }},smtp.{{ domain }},mailman.{{ domain }} creates=/etc/letsencrypt/live/{{ domain }}/privkey.pem
+#  shell: certbot certonly -m cattelan@thebarn.com --standalone --agree-tos --noninteractive -d {{ domain }},mail.{{ domain }},imap.{{ domain }},smtp.{{ domain }},mailman.{{ domain }} creates=/etc/letsencrypt/live/{{ domain }}/privkey.pem
+  shell: certbot certonly -m cattelan@thebarn.com --standalone --agree-tos --noninteractive -d mail0.{{ domain }},mailman.{{ domain }} creates=/etc/letsencrypt/live/{{ domain }}/privkey.pem
   when: ansible_ssh_user != "vagrant"
 
 - name: Modify permissions to allow ssl-cert group access
